@@ -18,7 +18,7 @@ vector<Registro> process_file(vector<Registro> data, string route){
             //Variables para almacenar datos del archivo
             string date, identifier, quant, amnt, desc;
             //Variables para almacenar datos del archivo en vector
-            string v_date, v_identifier, v_desc, v_real_date, v_real_hour;
+            string v_date, v_hour, v_identifier, v_desc, v_real_date, v_real_hour;
             long v_quant = 0, v_amnt = 0, v_subt = 0;
 
             getline(stream, date, delimiter);
@@ -28,12 +28,12 @@ vector<Registro> process_file(vector<Registro> data, string route){
             getline(stream, desc, delimiter);
 
             v_desc = split(desc);
+            v_date = split(date);
             v_quant = atol(split(quant).c_str());
             v_amnt = atol(split(amnt).c_str());
-            v_date = split(date);
             v_identifier = split(identifier);
-            v_real_date = detDate(v_date);
-            v_real_hour = detHour(v_date);
+            v_real_date = detDate(split(date));
+            v_real_hour = detHour(split(date));
             v_subt = detSubtotal(v_quant, v_amnt);
 
 

@@ -8,22 +8,23 @@
 
 using namespace std;
 
-class Venta: public Registro{
+class Venta{
     public:
-        Venta(string fecha, int total);
+        Venta(string fecha, long total){};
 
         void setFecha(string date){fecha = date;}
-        void setTotal(int num){total = num;}
+        void setTotal(long num){total = num;}
 
         const string getFecha(){return fecha;}
-        const int getTotal(){return total;}
+        const long getTotal(){return total;}
 
     private:
         string fecha;
-        int total;
+        long total;
 };
 
-vector<Venta> promDia(vector<Venta> data);
+vector<Venta> detTotal(vector<Registro> data);
+vector<Venta> promMes(vector<Venta> data);
 vector<Venta> moda(vector<Venta> data);
 
 #endif //VENTAS_H

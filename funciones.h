@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include "registro.h"
+#include "ventas.h"
 
 using namespace std;
 

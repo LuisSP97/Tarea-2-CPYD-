@@ -7,19 +7,13 @@ using namespace std;
 
 int main(int argc, char *argv[]){
     vector<Registro> data;
+    vector<Venta> newData;
     string route = argv[1];
-    cout << route << endl;
+    cout << "Procesando archivo..." << endl;
     data = process_file(data, route);
-
-
-
-
-    cout << "SKU:" << data[1].getSku() << endl;
-    cout << "Name:" << data[1].getName() << endl;
-    cout << "Amount:" << data[1].getAmount() << endl;
-    cout << "Quantity:" << data[1].getQuantity() << endl;
-    cout << "Subtotal:" << data[1].getSubtotal() << endl;
-    cout << "Date-Time:" << data[1].getCreated() << endl;
-    cout << "Date:" << data[1].getDate() << endl;
-    cout << "Hour:" << data[1].getHour() << endl;
+    cout << "Determinando total de cada dia..." << endl;
+    newData = detTotal(data);
+    for(unsigned int i = 1; i < newData.size(); i++){
+        cout << i << "." <<"Fecha:" << newData[i].getFecha()<< "//Total del dia:" << newData[i].getTotal() << endl;
+    }
 };

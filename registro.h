@@ -5,7 +5,6 @@
 #include <utility>
 #include <vector>
 #include <iostream>
-#define MAX 2048
 
 using namespace std;
 
