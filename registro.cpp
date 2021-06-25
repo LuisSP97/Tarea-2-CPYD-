@@ -22,3 +22,8 @@ string detHour(string date){
     string onlyHour = hourAux;
     return onlyHour;
 }
+
+long detSubtotal(long quant, long amnt){
+    long subt = quant * amnt;
+    return subt;
+}
