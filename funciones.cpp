@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//Funcion que elimina las comillas dobles utilizando la funcion erase.
 string split(string word){
     word.erase(remove(word.begin(), word.end(), '"'), word.end());
     return word;
@@ -22,13 +23,13 @@ vector<Registro> process_file(vector<Registro> data, string route){
             //Variables para almacenar datos del archivo en vector
             string v_date, v_hour, v_identifier, v_desc, v_real_date, v_real_hour;
             long v_quant = 0, v_amnt = 0, v_subt = 0;
-
+            //Se obtiene una linea y se separan los datos en las variables a medida que encuentra el delimiter
             getline(stream, date, delimiter);
             getline(stream, identifier, delimiter);
             getline(stream, quant, delimiter);
             getline(stream, amnt, delimiter);
             getline(stream, desc, delimiter);
-
+            //Se eliminan comillas dobles de las variables y se transforman a sus tipos de variables correspondientes
             v_desc = split(desc);
             v_date = split(date);
             v_quant = atol(split(quant).c_str());
@@ -37,8 +38,7 @@ vector<Registro> process_file(vector<Registro> data, string route){
             v_real_date = detDate(split(date));
             v_real_hour = detHour(split(date));
             v_subt = detSubtotal(v_quant, v_amnt);
-
-
+            //Se crea un reg de tipo Registro y se le setean los valores obtenidos ya limpios
             Registro reg(v_date, v_identifier, v_quant, v_amnt, v_desc, v_real_date, v_real_hour, v_subt);
             reg.setCreated(v_date);
             reg.setSku(v_identifier);
@@ -56,6 +56,21 @@ vector<Registro> process_file(vector<Registro> data, string route){
         cout << "Ups!, el archivo no se pudo abrir :c" << endl;
     }
     return data;
+}
+
+//Funcion para validar que el formato del archivo sea CSV
+bool validar_formato(string ruta, bool isCSV){
+    int tamano = ruta.size()-1;
+    int aux = ruta.size()-4;
+    string formato;
+    for(int i = tamano; i > aux; i--){
+        formato.push_back(ruta[i]);
+        ruta.pop_back();
+    }
+    if(formato == "vsc"){
+        return true;
+    }
+    return false;
 }
 
 void regresion_exponencial(vector<Venta> newData){
@@ -84,7 +99,7 @@ void regresion_exponencial(vector<Venta> newData){
     A=((sumx2*sumy -sumx*sumxy)/(n*sumx2-sumx*sumx));           //calculo de a y b para luego obtener el valor exponencial de a
     b=((n*sumxy-sumx*sumy)/(n*sumx2-sumx*sumx));
     a=exp(A);
-    cout<<"\n               Modelo exponencial          "<<endl;
+    cout<<"\n               Modelo exponencial:"<<endl;
     cout<<"La ecuacion de la recta es y= "<< a <<"e"<<"^"<<b<<"x"<<endl;
 }
 
@@ -107,7 +122,7 @@ void regresion_lineal(vector<Venta> newData){
         b = (n*sumxy-sumx*sumy)/(n*sumx2-sumx*sumx);                //calculo de a y b 
         a = (sumy - b*sumx)/n;
 
- cout<<"\n              Modelo de regresion lineal"<<endl;                  //mostrando el resultado de la regresion lineal
+ cout<<"\n              Modelo de regresion lineal:"<<endl;                  //mostrando el resultado de la regresion lineal
  cout<<"La ecuacion de la recta es: y = "<< a <<" + "<< b<<"x"<<endl;
 }
 
@@ -170,7 +185,7 @@ void regresion_polinomica(vector<Venta> newData){
         a[i]=a[i]/B[i][i];            //finalmente dividi el rhs por el coeficiente de la variable a calcular
     }  
     cout<<"\n               Modelo de regresion polinomica:"<<endl;
-    cout<<"La ecuacion de la recta en grado 2 es:  y="<<endl;
+    cout<<"La ecuacion de la recta en grado 2 es:  y=";
     for (i=0;i<n;i++)
         cout<<" + ("<<a[i]<<")"<<"x^"<<i;
     cout<<"\n";
