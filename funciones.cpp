@@ -191,16 +191,23 @@ void regresion_polinomica(vector<Venta> newData){
     cout<<"\n";
 }
 
-long varianza_total(vector<Venta> newData){
-    long arr [199];
-    long promedio = 0, count = 0, suma = 0;
+//Funcion para calcular el promedio de los totales del vector de tipo Venta
+long promedio_total(vector<Venta> newData){
+    long promedio = 0, suma = 0;
     for(unsigned int i = 1; i < newData.size(); i++){
         suma = suma + newData.at(i).getTotal();
-        count++;
     }
-    promedio = suma/count;
+    promedio = suma/(newData.size()-1);
+    return promedio;
+}
+
+//Funcion para calcular la varianza poblacional del los totales del vector de tipo Venta
+long varianza_total(vector<Venta> newData){
+    vector<long> arr;
+    long promedio = 0, count = 0, suma = 0;
+    promedio = promedio_total(newData);
     for(unsigned int i = 1; i < newData.size(); i++) {
-        arr[i - 1] = pow(newData.at(i).getTotal() - promedio, 2);
+        arr.push_back(pow(newData.at(i).getTotal() - promedio, 2));
     }
     suma = 0;
     count = 0;
@@ -209,5 +216,25 @@ long varianza_total(vector<Venta> newData){
         count++;
     }
     promedio = suma/count;
+    cout << promedio << endl;
     return promedio;
+}
+
+//Funcion para calcular la covarianza de las variables fecha y total del vector de tipo Venta
+//-------POR TERMINAR--------
+long covarianza(vector<Venta> newData){
+    long prom_total = 0, prom_fecha = 0, suma = 0, n = newData.size() - 1, covariance = 0;
+    vector<long> arr_total, arr_fecha, arr_producto;
+    prom_total = promedio_total(newData);
+    //prom_fecha = funcion para calcular promedio de las fechas
+    for(unsigned int i = 1; i < newData.size(); i++){
+        arr_total.push_back(newData.at(i).getTotal() - prom_total);
+        //arr_fecha.push_back(la_fecha - prom_fecha);  AQUI HAY QUE RESTAR A LA FECHA EL PROMEDIO DE LAS FECHAS
+        //arr_producto.push_back(arr_total.at(i) * arr_fecha.at(i));   AQUI HAY QUE MULTIPLICAR LOS RESULTADOS DE LAS OPERACIONES ANTERIORES
+    }
+    for(unsigned int i = 0; i < arr_producto.size(); i++){
+        suma = suma + arr_producto.at(i);
+    }
+    covariance = suma/(n-1);
+    return covariance;
 }

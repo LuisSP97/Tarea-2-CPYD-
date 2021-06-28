@@ -19,5 +19,7 @@ void regresion_exponencial(vector<Venta> newData);
 void regresion_lineal(vector<Venta> newData);
 void regresion_polinomica(vector<Venta> newData);
 long varianza_total(vector<Venta> newData);
+long covarianza(vector<Venta> newData);
+long promedio_total(vector<Venta> newData);
 
 #endif //FUNCIONES_H
