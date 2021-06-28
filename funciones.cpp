@@ -190,3 +190,24 @@ void regresion_polinomica(vector<Venta> newData){
         cout<<" + ("<<a[i]<<")"<<"x^"<<i;
     cout<<"\n";
 }
+
+long varianza_total(vector<Venta> newData){
+    long arr [199];
+    long promedio = 0, count = 0, suma = 0;
+    for(unsigned int i = 1; i < newData.size(); i++){
+        suma = suma + newData.at(i).getTotal();
+        count++;
+    }
+    promedio = suma/count;
+    for(unsigned int i = 1; i < newData.size(); i++) {
+        arr[i - 1] = pow(newData.at(i).getTotal() - promedio, 2);
+    }
+    suma = 0;
+    count = 0;
+    for(unsigned int i = 0; i < 199; i++){
+        suma = suma + arr[i];
+        count++;
+    }
+    promedio = suma/count;
+    return promedio;
+}

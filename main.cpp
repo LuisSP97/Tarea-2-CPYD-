@@ -30,11 +30,11 @@ int main(int argc, char *argv[]){
             data = process_file(data, route);
             cout << "Determinando total de cada dia..." << endl;
             newData = detTotal(data);
-            
+            varianza_total(newData);
             regresion_exponencial(newData);
             regresion_lineal(newData);
             regresion_polinomica(newData);
-
+            
             //Se finaliza el tiempo de ejecucion
             t1 = clock();
             double time = (double(t1-t0)/CLOCKS_PER_SEC);
