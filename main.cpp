@@ -30,7 +30,25 @@ int main(int argc, char *argv[]){
             data = process_file(data, route);
             cout << "Determinando total de cada dia..." << endl;
             newData = detTotal(data);
-            varianza_total(newData);
+
+            cout << "-----=====------=====----" << endl;
+
+            vector<long> arr_total, arr_fechas;
+            long varianza_totales = 0, varianza_fechas = 0, covarianza_totales_fechas = 0;
+            long double coef_determinacion = 0;
+            arr_total = crear_totales(newData);
+            arr_fechas = codificar_fechas(newData);
+            cout << arr_total.size() << endl;
+            varianza_totales = varianza(arr_total);
+            varianza_fechas = varianza(arr_fechas);
+            covarianza_totales_fechas = covarianza(arr_total, arr_fechas);
+            coef_determinacion = coef_determinacion_r_lineal(covarianza_totales_fechas, varianza_totales, varianza_fechas);
+            cout << "totales = " << varianza_totales << endl;
+            cout << "fechas = " << varianza_fechas << endl;
+            cout << "covarianza = " << covarianza_totales_fechas << endl;
+            cout << "r^2 = " << coef_determinacion << endl;
+            cout << "-----=====------=====----" << endl;
+
             regresion_exponencial(newData);
             regresion_lineal(newData);
             regresion_polinomica(newData);

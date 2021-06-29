@@ -17,4 +17,5 @@ ventas.o: ventas.h ventas.cpp
 	
 .PHONY: clean
 clean:
-	rm -fr *.0 main
+	rm -fr *.o main
+	rm -fr *0 main

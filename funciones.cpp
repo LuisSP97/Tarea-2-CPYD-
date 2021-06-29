@@ -122,8 +122,8 @@ void regresion_lineal(vector<Venta> newData){
         b = (n*sumxy-sumx*sumy)/(n*sumx2-sumx*sumx);                //calculo de a y b 
         a = (sumy - b*sumx)/n;
 
- cout<<"\n              Modelo de regresion lineal:"<<endl;                  //mostrando el resultado de la regresion lineal
- cout<<"La ecuacion de la recta es: y = "<< a <<" + "<< b<<"x"<<endl;
+    cout<<"\n              Modelo de regresion lineal:"<<endl;                  //mostrando el resultado de la regresion lineal
+    cout<<"La ecuacion de la recta es: y = "<< a <<" + "<< b<<"x"<<endl;
 }
 
 void regresion_polinomica(vector<Venta> newData){
@@ -191,50 +191,79 @@ void regresion_polinomica(vector<Venta> newData){
     cout<<"\n";
 }
 
-//Funcion para calcular el promedio de los totales del vector de tipo Venta
-long promedio_total(vector<Venta> newData){
-    long promedio = 0, suma = 0;
+
+//Funcion que retorna un vector con todos los totales del vector de clase Venta
+vector<long> crear_totales(vector<Venta> newData){
+    vector<long> arr;
     for(unsigned int i = 1; i < newData.size(); i++){
-        suma = suma + newData.at(i).getTotal();
+        arr.push_back(newData.at(i).getTotal());
     }
-    promedio = suma/(newData.size()-1);
+    return arr;
+}
+
+//Funcion que codifica las fechas, asignandoles un numero a partir del 2 en la posicion 0
+vector<long> codificar_fechas(vector<Venta> newData){
+    long num = 0;
+    vector<long> arr;
+    for(unsigned int i = 1; i < newData.size(); i++){
+        num = i + 1;
+        arr.push_back(num);
+    }
+    return arr;
+}
+
+//Funcion que calcula el promedio de todos los datos de un vector
+long calcular_promedio(vector<long> data){
+    long promedio = 0, suma = 0;
+    for(unsigned int i = 0; i < data.size(); i++){
+        suma = suma + data.at(i);
+    }
+    promedio = suma/data.size();
     return promedio;
 }
 
-//Funcion para calcular la varianza poblacional del los totales del vector de tipo Venta
-long varianza_total(vector<Venta> newData){
+//Funcion que calcula la varianza de una poblacion de datos
+long varianza(vector<long> data){
     vector<long> arr;
     long promedio = 0, count = 0, suma = 0;
-    promedio = promedio_total(newData);
-    for(unsigned int i = 1; i < newData.size(); i++) {
-        arr.push_back(pow(newData.at(i).getTotal() - promedio, 2));
-    }
-    suma = 0;
-    count = 0;
-    for(unsigned int i = 0; i < 199; i++){
-        suma = suma + arr[i];
+    promedio = calcular_promedio(data);
+    for(unsigned int i = 0; i < data.size(); i++){
+        arr.push_back(pow(data.at(i) - promedio, 2));
+        suma = suma + arr.at(i);
         count++;
     }
     promedio = suma/count;
-    cout << promedio << endl;
     return promedio;
 }
 
+
 //Funcion para calcular la covarianza de las variables fecha y total del vector de tipo Venta
-//-------POR TERMINAR--------
-long covarianza(vector<Venta> newData){
-    long prom_total = 0, prom_fecha = 0, suma = 0, n = newData.size() - 1, covariance = 0;
+long covarianza(vector<long> totales, vector<long> fechas){
+    long prom_total = 0, prom_fecha = 0, suma = 0, n = totales.size();
+    long double covariance = 0;
     vector<long> arr_total, arr_fecha, arr_producto;
-    prom_total = promedio_total(newData);
-    //prom_fecha = funcion para calcular promedio de las fechas
-    for(unsigned int i = 1; i < newData.size(); i++){
-        arr_total.push_back(newData.at(i).getTotal() - prom_total);
-        //arr_fecha.push_back(la_fecha - prom_fecha);  AQUI HAY QUE RESTAR A LA FECHA EL PROMEDIO DE LAS FECHAS
-        //arr_producto.push_back(arr_total.at(i) * arr_fecha.at(i));   AQUI HAY QUE MULTIPLICAR LOS RESULTADOS DE LAS OPERACIONES ANTERIORES
+    prom_total = calcular_promedio(totales);
+    prom_fecha = calcular_promedio(fechas);
+    for(unsigned int i = 0; i < totales.size(); i++){
+        arr_total.push_back(totales.at(i) - prom_total);
+        arr_fecha.push_back(fechas.at(i) - prom_fecha);
+        arr_producto.push_back(arr_total.at(i) * arr_fecha.at(i));
     }
     for(unsigned int i = 0; i < arr_producto.size(); i++){
         suma = suma + arr_producto.at(i);
     }
-    covariance = suma/(n-1);
+    covariance = suma/n;
     return covariance;
+}
+
+//==============FUNCION POR TERMINAR=================
+//Funcion que determina el coeficiente de determinacion para la regresion lineal, utilizando la el coeficiente de relacion de Pearson.
+long coef_determinacion_r_lineal(long covar_xy, long var_x, long var_y){
+    long double r_cuadrado = 0, covar, var_x_2 = 0, var_y_2  = 0;
+    covar = pow(covar_xy, 2);
+    var_x_2 = pow(var_x, 2);
+    var_y_2 = pow(var_y, 2);
+    r_cuadrado = covar/(var_x_2 * var_y_2);
+    cout << "R^2 = " <<r_cuadrado << endl;
+    return r_cuadrado;
 }

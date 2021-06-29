@@ -18,8 +18,10 @@ bool validar_formato(string ruta, bool isCSV);
 void regresion_exponencial(vector<Venta> newData);
 void regresion_lineal(vector<Venta> newData);
 void regresion_polinomica(vector<Venta> newData);
-long varianza_total(vector<Venta> newData);
-long covarianza(vector<Venta> newData);
-long promedio_total(vector<Venta> newData);
-
+long covarianza(vector<long> totales, vector<long> fechas);
+vector<long> crear_totales(vector<Venta> newData);
+vector<long> codificar_fechas(vector<Venta> newData);
+long calcular_promedio(vector<long> data);
+long varianza(vector<long> data);
+long coef_determinacion_r_lineal(long covar_xy, long var_x, long var_y);
 #endif //FUNCIONES_H
