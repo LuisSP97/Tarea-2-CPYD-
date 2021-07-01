@@ -10,12 +10,14 @@ string split(string word){
     return word;
 }
 
+//Funcion que procesa los datos del archivo recibido por la linea de comandos/ Terminal
 vector<Registro> process_file(vector<Registro> data, string route){
     ifstream file(route);
     string line;
     char delimiter = ';';
     if(file.is_open()){
         cout << "Se abrio el archivo con exito!" << endl;
+        cout << "Procesando el archivo..." << endl;
         while(getline(file, line)){
             stringstream stream(line);
             //Variables para almacenar datos del archivo
@@ -63,20 +65,21 @@ bool validar_formato(string ruta, bool isCSV){
     int tamano = ruta.size()-1;
     int aux = ruta.size()-4;
     string formato;
-    for(int i = tamano; i > aux; i--){
+    for(int i = tamano; i > aux; i--){      //Ciclo inverso que extrae los ultimos 3 caracteres, correspondientes al formato csv
         formato.push_back(ruta[i]);
         ruta.pop_back();
     }
-    if(formato == "vsc"){
+    if(formato == "vsc"){           //Como el ciclo es inverso, el string formato lo almacenara al reves
         return true;
     }
     return false;
 }
 
+//Funcion que determina un modelo de regresion exponencial con el conjunto de datos
 void regresion_exponencial(vector<Venta> newData){
     int n,i;
     long double a,b,A;
-    n=199;
+    n=newData.size()-1;
     long x[n],y[n],sumx=0;
     long double Y[n],sumy=0,sumxy=0,sumx2=0;
     for(i=1;i<=n;i++){                                      //se designan x e y para definir el modelo de regresion 
@@ -100,9 +103,10 @@ void regresion_exponencial(vector<Venta> newData){
     b=((n*sumxy-sumx*sumy)/(n*sumx2-sumx*sumx));
     a=exp(A);                                                       //valor exponecial de A
     cout<<"\n               Modelo exponencial:"<<endl;
-    cout<<"La ecuacion de la recta es y= "<< a <<"e"<<"^"<<b<<"x"<<endl;
+    cout<<"La ecuacion de la recta es total= "<< a <<"e"<<"^"<<b<<"fecha"<<endl;
 }
 
+//Funcion que determina un modelo de regresion lineal con el conjunto de datos
 void regresion_lineal(vector<Venta> newData){
     int n,i;
     n=newData.size()-1;
@@ -123,9 +127,10 @@ void regresion_lineal(vector<Venta> newData){
         a = (sumy - b*sumx)/n;
 
     cout<<"\n              Modelo de regresion lineal:"<<endl;                  //mostrando el resultado de la regresion lineal
-    cout<<"La ecuacion de la recta es: y = "<< a <<" + "<< b<<"x"<<endl;
+    cout<<"La ecuacion de la recta es: total= "<< a <<" + "<< b<<"fecha"<<endl;
 }
 
+//Funcion que determina un modelo de regresion polinomica con el conjunto de datos
 void regresion_polinomica(vector<Venta> newData){
     int i,j,k,n,N;
     cout.precision(4);                        //designa la precicsion
@@ -185,9 +190,9 @@ void regresion_polinomica(vector<Venta> newData){
         a[i]=a[i]/B[i][i];            //finalmente dividi el rhs por el coeficiente de la variable a calcular
     }  
     cout<<"\n               Modelo de regresion polinomica:"<<endl;
-    cout<<"La ecuacion de la recta en grado 2 es:  \n y =";
+    cout<<"La ecuacion de la recta en grado 2 es:  \n total=";
     for (i=0;i<n;i++)
-        cout<<" + ("<<a[i]<<")"<<"x^"<<i;
+        cout<<" + ("<<a[i]<<")"<<"fecha^"<<i;
     cout<<"\n";
 }
 
@@ -256,14 +261,12 @@ long covarianza(vector<long> totales, vector<long> fechas){
     return covariance;
 }
 
-//==============FUNCION POR TERMINAR=================
 //Funcion que determina el coeficiente de determinacion para la regresion lineal, utilizando la el coeficiente de relacion de Pearson.
+//======== LA FUNCION PRESENTA PROBLEMAS AL MULTIPLICAR DE FORMA ERRONEA LOS DATOS AL SER DEMASIADO GRANDES===========
 long coef_determinacion_r_lineal(long covar_xy, long var_x, long var_y){
-    long double r_cuadrado = 0, covar, var_x_2 = 0, var_y_2  = 0;
+    long double r_cuadrado = 0, covar;
     covar = pow(covar_xy, 2);
-    var_x_2 = pow(var_x, 2);
-    var_y_2 = pow(var_y, 2);
-    r_cuadrado = covar/(var_x_2 * var_y_2);
+    r_cuadrado = covar/(var_x * var_y);
     cout << "R^2 = " <<r_cuadrado << endl;
     return r_cuadrado;
 }
