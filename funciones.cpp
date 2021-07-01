@@ -80,8 +80,8 @@ void regresion_exponencial(vector<Venta> newData){
     long x[n],y[n],sumx=0;
     long double Y[n],sumy=0,sumxy=0,sumx2=0;
     for(i=1;i<=n;i++){                                      //se designan x e y para definir el modelo de regresion 
-        x[i]=i;
-        y[i]=newData[i].getTotal();
+        x[i]=i;                                             // x es la codificacion de la fecha del 1 a n
+        y[i]=newData[i].getTotal();                         // y es el monto total vendido en esa fecha
     }  
     for(i=1;i<=n;i++)
     {   
@@ -90,29 +90,29 @@ void regresion_exponencial(vector<Venta> newData){
     }
     for(i=1;i<=n;i++)                                       // se calculan las respectivas sumatorias
     {
-        sumx=sumx +x[i];
-        sumx2=sumx2 +x[i]*x[i];
-        sumy=sumy +Y[i];
-        sumxy=sumxy +x[i]*Y[i];
+        sumx=sumx +x[i];                                    //sumatoria de x
+        sumx2=sumx2 +x[i]*x[i];                             //sumatoria de x²
+        sumy=sumy +Y[i];                                    // sumatoria de Y que es el logaritmo de y
+        sumxy=sumxy +x[i]*Y[i];                             // sumatoria de x * y 
         
     }
     A=((sumx2*sumy -sumx*sumxy)/(n*sumx2-sumx*sumx));           //calculo de a y b para luego obtener el valor exponencial de a
     b=((n*sumxy-sumx*sumy)/(n*sumx2-sumx*sumx));
-    a=exp(A);
+    a=exp(A);                                                       //valor exponecial de A
     cout<<"\n               Modelo exponencial:"<<endl;
     cout<<"La ecuacion de la recta es y= "<< a <<"e"<<"^"<<b<<"x"<<endl;
 }
 
 void regresion_lineal(vector<Venta> newData){
     int n,i;
-    n=newData.size();
-    long x[n-1],y[n-1],sumx=0;
+    n=newData.size()-1;
+    long x[n],y[n],sumx=0;
     long double a,b,sumy=0,sumxy=0,sumx2=0;
-    for(i=1;i<n;i++){
-        x[i]=i+1;
-        y[i]=newData[i].getTotal();
+    for(i=1;i<=n;i++){                                    //se designan x e y para definir el modelo de regresion 
+        x[i]=i;                                          // x es la codificacion de la fecha del 1 a n                             
+        y[i]=newData[i].getTotal();                     // y es el monto total vendido en esa fecha
     }  
-    for(i=1;i<n;i++)                                // Se calcula las respectivas sumatorias
+    for(i=1;i<=n;i++)                                // Se calcula las respectivas sumatorias
     {
         sumx = sumx + x[i];
         sumx2 = sumx2 + x[i]*x[i];
@@ -185,7 +185,7 @@ void regresion_polinomica(vector<Venta> newData){
         a[i]=a[i]/B[i][i];            //finalmente dividi el rhs por el coeficiente de la variable a calcular
     }  
     cout<<"\n               Modelo de regresion polinomica:"<<endl;
-    cout<<"La ecuacion de la recta en grado 2 es:  y=";
+    cout<<"La ecuacion de la recta en grado 2 es:  \n y =";
     for (i=0;i<n;i++)
         cout<<" + ("<<a[i]<<")"<<"x^"<<i;
     cout<<"\n";
