@@ -103,7 +103,7 @@ void regresion_exponencial(vector<Venta> newData){
     b=((n*sumxy-sumx*sumy)/(n*sumx2-sumx*sumx));
     a=exp(A);                                                       //valor exponecial de A
     cout<<"\n               Modelo exponencial:"<<endl;
-    cout<<"La ecuacion de la recta es total= "<< a <<"e"<<"^"<<b<<"fecha"<<endl;
+    cout<<"La ecuacion de la recta para predecir las ventas de un dia en una fecha x es:\n VentaTotalDia= "<< a <<"e"<<"^"<<b<<"*FechaDia"<<endl;
 }
 
 //Funcion que determina un modelo de regresion lineal con el conjunto de datos
@@ -127,7 +127,7 @@ void regresion_lineal(vector<Venta> newData){
         a = (sumy - b*sumx)/n;
 
     cout<<"\n              Modelo de regresion lineal:"<<endl;                  //mostrando el resultado de la regresion lineal
-    cout<<"La ecuacion de la recta es: total= "<< a <<" + "<< b<<"fecha"<<endl;
+    cout<<"La ecuacion de la recta para predecir las ventas de un dia en una fecha x es: \n VentaTotalDia= "<< a <<" + "<< b<<"*FechaDia"<<endl;
 }
 
 //Funcion que determina un modelo de regresion polinomica con el conjunto de datos
@@ -135,7 +135,7 @@ void regresion_polinomica(vector<Venta> newData){
     int i,j,k,n,N;
     cout.precision(4);                        //designa la precicsion
     cout.setf(ios::fixed);
-    N=199;
+    N=newData.size()-1;
     n=2;                                       //n es el grado del polinomio
     double x[N],y[N];
     for(i=1;i<=N;i++){
@@ -190,9 +190,9 @@ void regresion_polinomica(vector<Venta> newData){
         a[i]=a[i]/B[i][i];            //finalmente dividi el rhs por el coeficiente de la variable a calcular
     }  
     cout<<"\n               Modelo de regresion polinomica:"<<endl;
-    cout<<"La ecuacion de la recta en grado 2 es:  \n total=";
+    cout<<"La ecuacion de la recta en grado 2 para predecir las ventas de un dia para una fecha x es: \n  VentaTotalDia= ";
     for (i=0;i<n;i++)
-        cout<<" + ("<<a[i]<<")"<<"fecha^"<<i;
+        cout<<" + ("<<a[i]<<")"<<"*FechaDia^"<<i;
     cout<<"\n";
 }
 
